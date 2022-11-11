@@ -8,8 +8,11 @@ namespace Shooter
     {
         [field: SerializeField]
         public Character Owner { get; private set; }
+
+        [SerializeField]
+        private LayerMask _badLayersToCollideWith;
         
-        public bool ReceiveHit(IDamageGiver damageGiver)
+        public int ReceiveHit(IDamageGiver damageGiver)
         {
             if (Owner == null)
             {
@@ -18,11 +21,20 @@ namespace Shooter
 
             if (damageGiver.OwnerId == Owner.Id)
             {
-                return false;
+                return 0;
             }
             
             Owner.ReceiveDamage(damageGiver.Damage);
-            return true;
+            return Owner.Health <= 0 ? 2 : 1;
+        }
+
+        private void OnCollisionStay(Collision collisionInfo)
+        {
+            var collidedWithAWall = (collisionInfo.gameObject.layer & _badLayersToCollideWith.value) > 0;
+            if (collidedWithAWall)
+            {
+                Owner.ReportGotBadCollision();
+            }
         }
     }
 }

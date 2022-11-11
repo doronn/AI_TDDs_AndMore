@@ -53,6 +53,8 @@
      <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\Editor\Converter\PPv2\EffectConverters\PropertyConversions.cs" />
      <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\Editor\Converter\PPv2\EffectConverters\MotionBlurConverter.cs" />
      <Compile Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\Editor\Converter\PPv2\PPv2ConversionIndexers.cs" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\Editor\Converter\PPv2\EffectConverters" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\Editor\Converter\PPv2" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\Editor\Converter\PPv2\PPv2ToURPConvertersDefinition.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

@@ -41,6 +41,8 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\Tests\Editor\Volumes" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\Tests\Editor" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\Tests\Editor\Unity.RenderPipelines.Core.Editor.Tests.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

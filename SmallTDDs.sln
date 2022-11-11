@@ -45,17 +45,17 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Assembly-CSharp-Editor", "A
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.ShaderGraph.Utilities", "Unity.ShaderGraph.Utilities.csproj", "{65fef6b2-1c87-30d7-2ef9-79b5845d70e1}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Universal.Editor.Tests", "Unity.RenderPipelines.Universal.Editor.Tests.csproj", "{3ad20820-1014-7419-8f97-a7a8dbcbea0c}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEngine.UI.Tests", "UnityEngine.UI.Tests.csproj", "{cb6b17d2-f252-0470-f12a-9900c46f369f}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnityEditor.UI.EditorTests", "UnityEditor.UI.EditorTests.csproj", "{1b13a756-c56b-79bc-d731-26143bd9030f}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Universal.Runtime.Tests", "Unity.RenderPipelines.Universal.Runtime.Tests.csproj", "{b17a8cec-3f80-0dd6-4209-fea631a5ea27}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Core.Runtime.Tests", "Unity.RenderPipelines.Core.Runtime.Tests.csproj", "{1b1e99ea-0b2f-a506-e07e-6aba1e8fec7b}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Core.Editor.Tests", "Unity.RenderPipelines.Core.Editor.Tests.csproj", "{5ec008f7-617d-8ed7-a478-f3445a078e40}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Core.Runtime.Tests", "Unity.RenderPipelines.Core.Runtime.Tests.csproj", "{1b1e99ea-0b2f-a506-e07e-6aba1e8fec7b}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Universal.Runtime.Tests", "Unity.RenderPipelines.Universal.Runtime.Tests.csproj", "{b17a8cec-3f80-0dd6-4209-fea631a5ea27}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.RenderPipelines.Universal.Editor.Tests", "Unity.RenderPipelines.Universal.Editor.Tests.csproj", "{3ad20820-1014-7419-8f97-a7a8dbcbea0c}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Unity.ShaderGraph.Editor.Tests", "Unity.ShaderGraph.Editor.Tests.csproj", "{cd5cf230-92ee-451f-99d7-7132694cfdc7}"
 EndProject
@@ -108,18 +108,18 @@ Global
 		{25799198-e9f2-d50b-ef7b-123c690788b4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{65fef6b2-1c87-30d7-2ef9-79b5845d70e1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{65fef6b2-1c87-30d7-2ef9-79b5845d70e1}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{3ad20820-1014-7419-8f97-a7a8dbcbea0c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{3ad20820-1014-7419-8f97-a7a8dbcbea0c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{cb6b17d2-f252-0470-f12a-9900c46f369f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{cb6b17d2-f252-0470-f12a-9900c46f369f}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1b13a756-c56b-79bc-d731-26143bd9030f}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1b13a756-c56b-79bc-d731-26143bd9030f}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{b17a8cec-3f80-0dd6-4209-fea631a5ea27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{b17a8cec-3f80-0dd6-4209-fea631a5ea27}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5ec008f7-617d-8ed7-a478-f3445a078e40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5ec008f7-617d-8ed7-a478-f3445a078e40}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{1b1e99ea-0b2f-a506-e07e-6aba1e8fec7b}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{1b1e99ea-0b2f-a506-e07e-6aba1e8fec7b}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5ec008f7-617d-8ed7-a478-f3445a078e40}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5ec008f7-617d-8ed7-a478-f3445a078e40}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{b17a8cec-3f80-0dd6-4209-fea631a5ea27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{b17a8cec-3f80-0dd6-4209-fea631a5ea27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{3ad20820-1014-7419-8f97-a7a8dbcbea0c}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{3ad20820-1014-7419-8f97-a7a8dbcbea0c}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{cd5cf230-92ee-451f-99d7-7132694cfdc7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{cd5cf230-92ee-451f-99d7-7132694cfdc7}.Debug|Any CPU.Build.0 = Debug|Any CPU
 	EndGlobalSection

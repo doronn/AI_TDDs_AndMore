@@ -79,6 +79,11 @@
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\UI\PropertyDrawers\SpriteStateDrawer.cs" />
      <Compile Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\UI\PropertyDrawers\NavigationDrawer.cs" />
      <None Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\UnityEditor.UI.asmdef" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\UI" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\EventSystem" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\UI\PropertyDrawers" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor" />
+     <Folder Include="Library\PackageCache\com.unity.ugui@1.0.0\Editor\Properties" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

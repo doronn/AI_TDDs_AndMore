@@ -48,6 +48,8 @@
      <Compile Include="Assets\Scripts\AiBrain\BrainsManager.cs" />
      <Compile Include="Assets\Scripts\AiBrain\BrainLevel.cs" />
      <Compile Include="Assets\Scripts\AiBrain\NeuralNetwork.cs" />
+     <Compile Include="Assets\Scripts\AiBrain\NeuralNetworkArray.cs" />
+     <Folder Include="Assets\Scripts\AiBrain" />
      <None Include="Assets\Scripts\AiBrain\AiBrain.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

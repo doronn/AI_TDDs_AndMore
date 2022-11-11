@@ -4,14 +4,16 @@ using System.Linq;
 using Sensory;
 using Shooter;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace AiBrain
 {
     public class Brain : MonoBehaviour
     {
+        private const string SCORE_TEXT_FORMAT = "{0}\n{1}";
+        private static int _bestId = -1;
         private static int _networkIndex = 100;
-        [SerializeField] private DangerSensor[] _sensors;
-        [SerializeField] private float _lastSensoryDirection = 0;
+        [SerializeField] private DiscreteSensor[] _sensors;
         [SerializeField] private Character _controlledCharacter;
         public NeuralNetwork Network { get; private set; }
 
@@ -22,11 +24,17 @@ namespace AiBrain
             private set
             {
                 _totalScore = value;
-                
-                if(_controlledCharacter)
-                {
-                    _controlledCharacter._scoreText.SetText(value.ToString());
-                }
+
+                UpdateCharacterScoreText();
+            }
+        }
+
+        private void UpdateCharacterScoreText()
+        {
+            if (_controlledCharacter)
+            {
+                _controlledCharacter._scoreText.SetText(string.Format(SCORE_TEXT_FORMAT, _totalScore.ToString(),
+                    _controlledCharacter.Health.ToString()));
             }
         }
 
@@ -36,37 +44,83 @@ namespace AiBrain
         [SerializeField]
         private int _totalScore = 100;
 
-        public void Init(NeuralNetwork predefinedNetwork = null)
+        private int _sensorCount;
+        private float _stimulationInput = 0f;
+        private float _mutationAmount = 0f;
+        private float[] _sensoryDataBuffer;
+
+        public Brain()
+        {
+        }
+
+        public void Init(NeuralNetwork predefinedNetwork = null, float brainConfigMutationAmount = 0, int score = 100, bool isMutated = false)
         {
             if (_sensors == null || _sensors.Length == 0)
             {
                 throw new Exception("missing sensor");
             }
+
+            _networkIndex = Guid.NewGuid().GetHashCode();
+            _mutationAmount = brainConfigMutationAmount;
             
-            Network = predefinedNetwork ?? new NeuralNetwork(6, 14, 8);
-            _controlledCharacter.Init(_networkIndex, OnDied, OnHit);
+            _sensorCount = _sensors.Sum(sensor => sensor.SensorCount);
+            var neuronCounts = new[] { _sensorCount + 1, _sensorCount / 2, _sensorCount, 4 };
+            
+            Network = predefinedNetwork ?? new NeuralNetwork(_networkIndex, neuronCounts);
+            
+            if (predefinedNetwork != null)
+            {
+                _totalScore = score;
+                NeuralNetwork.TransformNetworkNeurons(Network, neuronCounts);
+                if (isMutated && brainConfigMutationAmount > 0)
+                {
+                    Network.NetworkIndex = _networkIndex;
+                }
+            }
+            
             foreach (var sensor in _sensors)
             {
                 var sensorListener = new SensorListener();
                 _sensorListeners.Add(sensorListener);
-                sensor.RegisterListener(sensorListener, _networkIndex);
+                sensor.RegisterListener(sensorListener, Network.NetworkIndex);
             }
             
-            _networkIndex++;
-
+            _sensoryDataBuffer = new float[_sensorCount + 1];
+            
+            _controlledCharacter.Init(Network.NetworkIndex, OnDied, OnHit, GotBadCollision);
+            _controlledCharacter.transform.localPosition += Vector3.forward * Random.Range(-50f, 50f) + Vector3.right * Random.Range(-10f, 10f);
+            
             _isInitialized = true;
+        }
+
+        public void SetAsBest()
+        {
+            if (_controlledCharacter)
+            {
+                _bestId = _controlledCharacter.Id;
+            }
+        }
+
+        private bool IsBest()
+        {
+            return _controlledCharacter && _bestId == _controlledCharacter.Id;
         }
 
         private void OnHit()
         {
-            TotalScore -= 500;
+            // TotalScore -= 200;
+            UpdateCharacterScoreText();
+        }
+
+        private void GotBadCollision()
+        {
+            // NeuralNetwork.Mutate(Network, _mutationAmount, 1);
         }
 
         private void OnDied()
         {
-            _networkIndex++;
             _isInitialized = false;
-            TotalScore -= 1000;
+            // TotalScore -= 300;
         }
 
         private void FixedUpdate()
@@ -76,40 +130,42 @@ namespace AiBrain
                 return;
             }
 
-            /*var inputsList = new List<float> { _totalScore / 10000f };
+            var addedCount = 0;
+            var mainSensorHit = false;
+            var anySensorHit = false;
             foreach (var sensorListener in _sensorListeners)
             {
-                inputsList.AddRange(sensorListener.SensoryData);
-            }*/
+                var sensorData = sensorListener.SensoryData;
+                sensorData.CopyTo(_sensoryDataBuffer, addedCount);
+                addedCount += sensorData.Length;
+                if (!mainSensorHit)
+                {
+                    mainSensorHit = sensorListener.WasMainSensorHit;
+                }
 
-            var sensorListener = _sensorListeners.FirstOrDefault();
-
-            if (sensorListener == null)
-            {
-                throw new Exception("missing sensor");
+                if (!anySensorHit)
+                {
+                    anySensorHit = sensorListener.WasAnySensorHit;
+                }
             }
 
-            var inputData = sensorListener.SensoryData;
+            if (!anySensorHit)
+            {
+                _stimulationInput = MathF.Sin(Time.fixedTime);
+            }
+            
+            _sensoryDataBuffer[_sensorCount] = _stimulationInput;
+            _stimulationInput = 0;
+            
             var outputs = NeuralNetwork.FeedForward(
-                inputData, Network);
+                _sensoryDataBuffer, Network);
 
             var anyOutPut = false;
-            
-            var detectedCharacterDistanceInput = inputData[0];
-            var detectedCharacterDirectionInput = inputData[1];
-            var rotationInputDirection = detectedCharacterDistanceInput <= 0.005f
-                ? 0
-                : detectedCharacterDirectionInput switch
-                {
-                    > 0 => -1,
-                    < 0 => 1,
-                    _ => 0
-                };
 
             for (var i = 0; i < outputs.Length; i++)
             {
                 var outputValue = outputs[i];
-                if (outputValue <= 0 && i != 5)
+                if (MathF.Abs(outputValue) <= 0.02 && i != 2)
                 {
                     continue;
                 }
@@ -118,66 +174,131 @@ namespace AiBrain
                 switch (i)
                 {
                     case 0:
-                        _controlledCharacter.WalkForward();
+                    {
+                        if (outputValue > 0)
+                        {
+                            _controlledCharacter.WalkForward();
+                        }
+                        else
+                        {
+                            _controlledCharacter.WalkBackward();
+                        }
+                        
+                        /*if (!mainSensorHit)
+                        {
+                            TotalScore += anySensorHit ? 2 : 1;
+                        }*/
                         break;
+                    }
                     case 1:
-                        _controlledCharacter.WalkBackward();
-                        break;
-                    case 2:
-                        _controlledCharacter.StrafeLeft();
-                        break;
-                    case 3:
-                        _controlledCharacter.StrafeRight();
-                        break;
-                    case 4:
-                        // _controlledCharacter.RotateLeft();
-                        // TotalScore -= rotationInputDirection;
-                        // Debug.Log("boop");
-                        break;
-                    case 5:
-                        _controlledCharacter.SetRotation(outputValue * 180f);
-                        // Debug.Log($"Direction S= {detectedCharacterDirectionInput * 180f} O= {outputValue * 180f}");
+                    {
+                        if (outputValue > 0)
+                        {
+                            _controlledCharacter.StrafeRight();
+                        }
+                        else
+                        {
+                            _controlledCharacter.StrafeLeft();
+                        }
 
-                        if (Math.Abs(detectedCharacterDirectionInput - outputValue) < 1 / 180f)
+                        /*if (!mainSensorHit)
                         {
-                            TotalScore += 5;
-                        }
-                        // TotalScore += rotationInputDirection;
+                            TotalScore += anySensorHit ? 2 : 1;
+                        }*/
                         break;
-                    case 6:
-                        if (_controlledCharacter.Shoot(TargetWasHit))
+                    }
+                    case 2:
+                    {
+                        _controlledCharacter.SetRotation(outputValue * 180f);
+                        /*if (!mainSensorHit)
                         {
-                            if (detectedCharacterDistanceInput > 0 && Math.Abs(detectedCharacterDirectionInput) < 0.0005f)
+                            TotalScore += anySensorHit ? 2 : 1;
+                        }
+                        */
+
+                        break;
+                    }
+                    case 3:
+                    {
+                        if (mainSensorHit)
+                        {
+                            TotalScore += 1;
+                        }
+                        /*if (outputValue > 0 && _controlledCharacter.Shoot(mainSensorHit ? TargetWasHitWhileIsLockedOnMainTarget : TargetWasHitWhileNotLockedOnMainTarget))
+                        {
+                            if (mainSensorHit)
                             {
-                                TotalScore += 100;
-                            }
-                        }
+                                TotalScore += 2 * (int)_controlledCharacter.Health;
+                            }/*
+                            else
+                            {
+                                TotalScore -= 15;
+                            }#1#
+                        }*/
                         break;
+                    }
                     default:
+                    {
                         break;
+                    }
                 }
             }
             
-            if (Math.Abs(detectedCharacterDirectionInput) < Math.Abs(_lastSensoryDirection))
+            if (mainSensorHit)
             {
-                TotalScore += 1;
+                TotalScore += (int)_controlledCharacter.Health;
+                if (_controlledCharacter.Shoot(mainSensorHit
+                        ? TargetWasHitWhileIsLockedOnMainTarget
+                        : TargetWasHitWhileNotLockedOnMainTarget))
+                {
+                    TotalScore += 2 * (int)_controlledCharacter.Health;
+                }
+                // var _stimulationTarget = (TotalScore > 0 ? 1f : -1);
+                // var stimulationStep = 1f / (Math.Abs(TotalScore / 100) + 1);
+                // _stimulationInput = AiUtils.Lerp(_stimulationInput, _stimulationTarget, 
+                    // stimulationStep);
+                // var stimAbs = Mathf.Abs(_stimulationInput);
+                // NeuralNetwork.Mutate(Network, _mutationAmount * stimAbs, 1);
             }
             else
             {
-                TotalScore -= 10;
-            }
-
-            _lastSensoryDirection = detectedCharacterDirectionInput;
-            
-            if (anyOutPut)
-            {
-                // TotalScore += 1;
+                // _stimulationInput = AiUtils.Lerp(_stimulationInput, 0, 0.01f);
+                // var stimAbs = Mathf.Abs(_stimulationInput);
+                // if (stimAbs > 0.01)
+                // {
+                    // NeuralNetwork.Mutate(Network, _mutationAmount * stimAbs, 1);
+                // }
             }
         }
 
-        private void TargetWasHit()
+        private void TargetWasHitWhileIsLockedOnMainTarget(int hitScore)
         {
-            TotalScore += 600;
+            if (hitScore < 0)
+            {
+                // NeuralNetwork.Mutate(Network, _mutationAmount, 1);
+                TotalScore -= 15;
+                return;
+            }
+            
+            var healthBeforeHit = (int)_controlledCharacter.Health;
+            if (hitScore == 2)
+            {
+                _controlledCharacter.GiveHealthBump();
+            }
+
+            TotalScore += hitScore * healthBeforeHit;
+        }
+        
+        private void TargetWasHitWhileNotLockedOnMainTarget(int hitScore)
+        {
+            if (hitScore < 0)
+            {
+                // NeuralNetwork.Mutate(Network, _mutationAmount, 1);
+                TotalScore -= 15;
+                return;
+            }
+            
+            TotalScore += 1;
         }
     }
 }

@@ -4,17 +4,17 @@ using UnityEngine;
 namespace Shooter
 {
     [RequireComponent(typeof(Collider))]
-    public class DamageGiver : MonoBehaviour, IDamageGiver, IdableActor
+    public class DamageGiver : MonoBehaviour, IDamageGiver, IIdableActor
     {
         public int OwnerId { get; private set; }
         
         [field: SerializeField]
         public float Damage { get; private set; } = 1;
 
-        private Action _onHitTarget = null;
+        private Action<int> _onHitTarget = null;
         private Action _afterCollision = null;
 
-        internal void Init(int ownerId, Action onHitTarget, Action afterCollision)
+        internal void Init(int ownerId, Action<int> onHitTarget, Action afterCollision)
         {
             OwnerId = ownerId;
             _onHitTarget = onHitTarget;
@@ -25,11 +25,14 @@ namespace Shooter
         {
             if (other.isTrigger == false && other.TryGetComponent<IHitTarget>(out var hitTarget))
             {
-                if (hitTarget.ReceiveHit(this))
+                var receiveHit = hitTarget.ReceiveHit(this);
+                if (receiveHit == 0)
                 {
-                    _onHitTarget?.Invoke();
+                    return;
                 }
                 
+                _onHitTarget?.Invoke(receiveHit);
+
                 _afterCollision?.Invoke();
             }
         }

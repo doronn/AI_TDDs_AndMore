@@ -47,6 +47,7 @@
      <Compile Include="Assets\Scripts\Snake\SnakePartController.cs" />
      <Compile Include="Assets\Scripts\Snake\IMovableCharacter.cs" />
      <None Include="Assets\Scripts\Snake\Core.Snake.asmdef" />
+     <Folder Include="Assets\Scripts\Snake" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

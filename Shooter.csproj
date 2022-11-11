@@ -43,7 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Shooter\IHitTarget.cs" />
      <Compile Include="Assets\Scripts\Shooter\WallActor.cs" />
-     <Compile Include="Assets\Scripts\Shooter\IdableActor.cs" />
+     <Compile Include="Assets\Scripts\Shooter\IIdableActor.cs" />
      <Compile Include="Assets\Scripts\Shooter\IDamageGiver.cs" />
      <Compile Include="Assets\Scripts\Shooter\PlayerController.cs" />
      <Compile Include="Assets\Scripts\Shooter\IObstacle.cs" />
@@ -52,7 +52,9 @@
      <Compile Include="Assets\Scripts\Shooter\Projectile.cs" />
      <Compile Include="Assets\Scripts\Shooter\Character.cs" />
      <Compile Include="Assets\Scripts\Shooter\DamageGiver.cs" />
+     <Compile Include="Assets\Scripts\Shooter\CharacterConfiguration.cs" />
      <None Include="Assets\Scripts\Shooter\Shooter.asmdef" />
+     <Folder Include="Assets\Scripts\Shooter" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

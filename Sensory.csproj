@@ -43,8 +43,11 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\Sensory\ISensorListener.cs" />
      <Compile Include="Assets\Scripts\Sensory\ISensor.cs" />
-     <Compile Include="Assets\Scripts\Sensory\DangerSensor.cs" />
+     <Compile Include="Assets\Scripts\Sensory\DiscreteSensor.cs" />
+     <Compile Include="Assets\Scripts\Sensory\RayExtensions.cs" />
+     <Compile Include="Assets\Scripts\Sensory\ISensoryMetaData.cs" />
      <None Include="Assets\Scripts\Sensory\Sensory.asmdef" />
+     <Folder Include="Assets\Scripts\Sensory" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

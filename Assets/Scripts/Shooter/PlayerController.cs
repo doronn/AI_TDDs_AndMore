@@ -12,6 +12,7 @@ namespace Shooter
         private Character _character;
 
         private bool _isInitialized = false;
+        private Camera _mainCamera;
 
         private void Awake()
         {
@@ -20,6 +21,7 @@ namespace Shooter
                 _character.Init(controllerId, OnDied);
                 _isInitialized = true;
             }
+            _mainCamera = Camera.main;
         }
 
         private void OnDied()
@@ -27,7 +29,7 @@ namespace Shooter
             _isInitialized = false;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             if (!_isInitialized)
             {
@@ -50,18 +52,20 @@ namespace Shooter
             {
                 _character.WalkBackward();
             }
-            if (Input.GetKey(KeyCode.Q))
+
+            var mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
+            var lookAtRelativePosition = mouseRay.GetPoint(_mainCamera.transform.localPosition.y);
+            _character.LookAt(lookAtRelativePosition);
+            
+            if (Input.GetMouseButton(0))
             {
-                _character.RotateLeft();
-            }
-            if (Input.GetKey(KeyCode.E))
-            {
-                _character.RotateRight();
-            }
-            if (Input.GetKeyDown(KeyCode.Space))
-            {
-                _character.Shoot();
+                _character.Shoot(OnHitTarget);
             }
         }
+
+        private void OnHitTarget(int hit)
+        {
+            
+        } 
     }
 }

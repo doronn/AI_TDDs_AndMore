@@ -40,7 +40,7 @@ namespace SnakeTests
         [Theory]
         public void SerializeNeuralNetwork()
         {
-            var network = new NeuralNetwork(new[] { 4, 6, 4 });
+            var network = new NeuralNetwork(0, new[] { 4, 6, 4 });
             NeuralNetwork.FeedForward(new[] { 0.5f, 0.1f, 0f, 0.2f }, network);
             
             NeuralNetwork.Mutate(network, 0.1f);

@@ -60,6 +60,7 @@
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\Debug\DebuggingCommon.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\UnityInput.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\Lighting.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\LightCookie" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\UniversalMetaPass.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\ShaderVariablesFunctions.deprecated.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\LightCookie\LightCookieInput.hlsl" />
@@ -81,10 +82,12 @@
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\Clustering.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\Shadows.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\MetaInput.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\UnityTypes.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\DecalInput.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\Debug\Debugging2D.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\RealtimeLights.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\Debug" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.universal@12.1.7\ShaderLibrary\DeclareDepthTexture.hlsl" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

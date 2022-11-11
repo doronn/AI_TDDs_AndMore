@@ -1,6 +1,6 @@
 ﻿namespace Shooter
 {
-    public interface IdableActor
+    public interface IIdableActor
     {
         int Id { get; }
     }

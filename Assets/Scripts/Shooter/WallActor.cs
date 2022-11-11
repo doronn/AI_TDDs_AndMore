@@ -2,12 +2,12 @@
 
 namespace Shooter
 {
-    public class WallActor : MonoBehaviour, IObstacle, IdableActor, IHitTarget
+    public class WallActor : MonoBehaviour, IObstacle, IIdableActor, IHitTarget
     {
         public int Id { get; } = -1;
-        public bool ReceiveHit(IDamageGiver damageGiver)
+        public int ReceiveHit(IDamageGiver damageGiver)
         {
-            return false;
+            return -1;
         }
     }
 }

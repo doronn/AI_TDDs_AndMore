@@ -11,7 +11,8 @@ namespace AiBrain
 
         [field: SerializeField] public float IterationTime { get; private set; } = 30f;
 
-        [field: SerializeField] public int SqrtTotalSimulationsAmount { get; private set; } = 10;
+        [field: SerializeField] public int SimulationsAmount { get; private set; } = 200;
+        [field: SerializeField] public int AmountOfSavedNetworks { get; private set; } = 3;
 
         [field: SerializeField] public GameObject SimulationPrefab { get; private set; }
 

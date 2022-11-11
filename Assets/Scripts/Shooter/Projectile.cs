@@ -16,37 +16,29 @@ namespace Shooter
         
         [SerializeField]
         private float _maxDistance;
+
+        [SerializeField]
+        private Rigidbody _rb;
         
         private Vector3 _directionVector;
-        private float _totalCoveredDistance;
 
-        internal void Init(int ownerId, double direction, Action onHitTarget = null)
+        internal void Init(int ownerId, double direction, Action<int> onHitTarget = null)
         {
             OwnerId = ownerId;
             _directionVector = new Vector3((float)Math.Cos(direction), 0, (float)Math.Sin(direction));
             _damageGiver = GetComponent<DamageGiver>();
             _damageGiver.Init(ownerId, onHitTarget, DestroySelf);
-        }
-        
-        private void Update()
-        {
-            var speedCoef =  _moveSpeed * Time.deltaTime;
-            transform.position += _directionVector * speedCoef;
-
-            _totalCoveredDistance += speedCoef;
-
-            if (_totalCoveredDistance >= _maxDistance)
-            {
-                DestroySelf();
-            }
+            _rb.velocity = _directionVector * _moveSpeed;
+            
+            Destroy(gameObject, _maxDistance / _moveSpeed);
         }
 
         private void DestroySelf()
         {
-            if (!this || !gameObject)
+            /*if (!this || !gameObject)
             {
                 return;
-            }
+            }*/
 
             Destroy(gameObject);
         }

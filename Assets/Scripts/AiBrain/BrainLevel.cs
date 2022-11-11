@@ -21,7 +21,7 @@ namespace AiBrain
             Biases = new float[outputCount];
 
             Weights = new float[inputCount][];
-            for (int i = 0; i < inputCount; i++)
+            for (var i = 0; i < inputCount; i++)
             {
                 Weights[i] = new float[outputCount];
             }
@@ -66,7 +66,7 @@ namespace AiBrain
 
                 if (sum > level.Biases[i])
                 {
-                    level.Outputs[i] = 1;
+                    level.Outputs[i] = sum;
                 }
                 else
                 {
@@ -75,6 +75,54 @@ namespace AiBrain
             }
 
             return level.Outputs;
+        }
+
+        public static void TransformBrainNeuronCounts(BrainLevel brainLevel, int inputCount, int outputCount)
+        {
+            var currentInputCount = brainLevel.Inputs.Length;
+            var currentOutputCount = brainLevel.Outputs.Length;
+
+            if (currentInputCount == inputCount && currentOutputCount == outputCount)
+            {
+                return;
+            }
+            
+            var minInputCount = Math.Min(currentInputCount, inputCount);
+            var minOutputCount = Math.Min(currentOutputCount, outputCount);
+
+            if (currentInputCount != inputCount)
+            {
+                ChangeArraySize(ref brainLevel.Inputs, inputCount, minInputCount);
+            }
+
+            if (currentOutputCount != outputCount)
+            {
+                ChangeArraySize(ref brainLevel.Outputs, outputCount, minOutputCount);
+                ChangeArraySize(ref brainLevel.Biases, outputCount, minOutputCount);
+            }
+            
+
+            var updatedArray = new float[inputCount][];
+            Array.Copy(brainLevel.Weights, 0, updatedArray, 0, minInputCount);
+            brainLevel.Weights = updatedArray;
+            
+            for (var i = 0; i < inputCount; i++)
+            {
+                if (brainLevel.Weights[i] == null)
+                {
+                    brainLevel.Weights[i] = new float[outputCount];
+                    continue;
+                }
+                
+                ChangeArraySize(ref brainLevel.Weights[i], outputCount, minOutputCount);
+            }
+        }
+
+        private static void ChangeArraySize(ref float[] arrayToChange, int newCount, int minCount)
+        {
+            var updatedArray = new float[newCount];
+            Array.Copy(arrayToChange, 0, updatedArray, 0, minCount);
+            arrayToChange = updatedArray;
         }
     }
 }

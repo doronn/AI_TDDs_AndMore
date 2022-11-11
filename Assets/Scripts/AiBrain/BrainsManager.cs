@@ -28,8 +28,12 @@ namespace AiBrain
 
         private static int _generationCounter = 0;
 
+        private float _startTime = 0;
+        private NeuralNetworkArray _bestNetworks;
+
         private void Awake()
         {
+            Application.runInBackground = true;
             if (PlayerPrefs.HasKey(_brainConfig.BrainId))
             {
                 _bestBrainJson = PlayerPrefs.GetString(_brainConfig.BrainId);
@@ -38,16 +42,30 @@ namespace AiBrain
 
             _iterationCounterText.text = _generationCounter.ToString();
             
-            var halfOfSimulationsSqrtCount = _brainConfig.SqrtTotalSimulationsAmount / 2;
-            for (int i = -halfOfSimulationsSqrtCount; i < halfOfSimulationsSqrtCount; i++)
+            var simulationsCount = _brainConfig.SimulationsAmount;
+            var simulationCountSqrt = (int)Math.Ceiling(Math.Sqrt(simulationsCount));
+            var halfSqrtCountCeil = (int)Math.Ceiling(simulationCountSqrt / 2f);
+            var halfSqrtCountFloor = (int)Math.Floor(simulationCountSqrt / 2f);
+            for (int i = -halfSqrtCountFloor; i < halfSqrtCountCeil; i++)
             {
-                for (int j = -halfOfSimulationsSqrtCount; j < halfOfSimulationsSqrtCount; j++)
+                for (int j = -halfSqrtCountFloor; j < halfSqrtCountCeil; j++)
                 {
+                    if (simulationsCount <= 0)
+                    {
+                        break;
+                    }
+
+                    simulationsCount--;
                     var simulationInstance = Instantiate(_brainConfig.SimulationPrefab, new Vector3(i * _brainConfig.MapSizeX, 0, j * _brainConfig.MapSizeZ),
                         Quaternion.identity);
 
                     var simulationBrains = simulationInstance.GetComponents<Brain>();
                     _brains.AddRange(simulationBrains);
+                }
+                
+                if (simulationsCount <= 0)
+                {
+                    break;
                 }
             }
             
@@ -68,26 +86,36 @@ namespace AiBrain
 
         public void StartSimulation()
         {
+            _bestNetworks = string.IsNullOrEmpty(_bestBrainJson) ? null : JsonConvert.DeserializeObject<NeuralNetworkArray>(_bestBrainJson);
+            var copiedNetworksCount = _bestNetworks?.Networks?.Length ?? 0;
             for (var index = 0; index < _brains.Count; index++)
             {
                 var brain = _brains[index];
-                var copiedNetwork = string.IsNullOrEmpty(_bestBrainJson) ? null : JsonConvert.DeserializeObject<NeuralNetwork>(_bestBrainJson);
-                if (index == 0)
+                if (index < copiedNetworksCount)
                 {
-                    brain.Init(copiedNetwork);
-                    continue;
+                    if (_bestNetworks?.Networks != null)
+                    {
+                        var neuralNetworkSaveObject = _bestNetworks.Networks[index];
+                        brain.Init(neuralNetworkSaveObject.Network, _brainConfig.MutationAmount);
+                        continue;
+                    }
+                }
+                var networkToCopy = _bestNetworks?.Networks?[index % copiedNetworksCount];
+                var copiedNetwork = JsonConvert.DeserializeObject<NeuralNetworkSaveObject>(JsonConvert.SerializeObject(networkToCopy));
+                var nextNetwork = copiedNetworksCount > 0 ? copiedNetwork?.Network : null;
+                var isMutated = false;
+                if (nextNetwork != null)
+                {
+                    NeuralNetwork.Mutate(nextNetwork, _brainConfig.MutationAmount);
+                    isMutated = true;
                 }
 
-                if (copiedNetwork != null)
-                {
-                    NeuralNetwork.Mutate(copiedNetwork, _brainConfig.MutationAmount);
-                }
-
-                brain.Init(copiedNetwork);
+                brain.Init(nextNetwork, _brainConfig.MutationAmount, isMutated: isMutated);
             }
 
             if (_brainConfig.AutoLearn)
             {
+                _startTime = Time.time;
                 StartCoroutine(LearnEndTimer());
             }
         }
@@ -104,8 +132,10 @@ namespace AiBrain
                 if (bestBrainTransform != null)
                 {
                     _constraint.SetSource(0,
-                        new ConstraintSource() { sourceTransform = bestBrainTransform, weight = 1 });
+                        new ConstraintSource { sourceTransform = bestBrainTransform, weight = 1 });
                 }
+                
+                _iterationCounterText.text = $"{_generationCounter.ToString()}\n{_brainConfig.IterationTime - (Time.time - _startTime):n2}";
             }
         }
 
@@ -121,15 +151,39 @@ namespace AiBrain
 
         public void SaveBestBrain()
         {
-            var bestBrain = GetBestBrain();
+            var bestBrains = _brains;
 
-            if (bestBrain == null)
+            if (bestBrains == null || bestBrains.Count == 0)
             {
                 throw new Exception("No brain found ???");
             }
-            
-            var brainJson = JsonConvert.SerializeObject(bestBrain.Network);
-            
+
+            var bestNetworksSoFar =
+                bestBrains.Select(brain =>
+                    new NeuralNetworkSaveObject
+                    {
+                        Network = brain.Network,
+                        NetworkScore = brain.TotalScore
+                    }).ToList();
+            if (_bestNetworks?.Networks != null)
+            {
+                bestNetworksSoFar.AddRange(_bestNetworks.Networks);
+            }
+
+            var orderedNetworks =
+                bestNetworksSoFar.OrderByDescending(networkSaveObject => networkSaveObject.NetworkScore).Distinct(NeuralNetworkSaveObjectEqualityComparer.Instance);
+            var takenBestBrains = orderedNetworks.Take(_brainConfig.AmountOfSavedNetworks);
+            var bestNetworks = takenBestBrains as NeuralNetworkSaveObject[] ?? takenBestBrains.ToArray();
+
+            var brainJson = JsonConvert.SerializeObject(new NeuralNetworkArray { Networks = bestNetworks });
+            var averageBestScores = (int)bestNetworks.Average(network => network.NetworkScore);
+
+            var brainBestAvgScore = _brainConfig.BrainId + "_bestAvgScore";
+            var lastKnownBestAverage = PlayerPrefs.GetInt(brainBestAvgScore, 0);
+            var highestTotalScore = bestNetworks.FirstOrDefault()?.NetworkScore;
+            Debug.Log(
+                $"Saving best brains with Maximum of {highestTotalScore} and avg of {averageBestScores}. last average was {lastKnownBestAverage}\nIndices: {string.Join(", ", bestNetworks.Select(o => o.Network.NetworkIndex))}");
+            PlayerPrefs.SetInt(brainBestAvgScore, averageBestScores);
             PlayerPrefs.SetString(_brainConfig.BrainId, brainJson);
             PlayerPrefs.Save();
         }
@@ -139,6 +193,13 @@ namespace AiBrain
             var maxBrainScore = _brains.Max(brain => brain.TotalScore);
             var bestBrain = _brains.FirstOrDefault(brain => brain.TotalScore == maxBrainScore);
             return bestBrain;
+        }
+        
+        private List<Brain> GetBestBrains()
+        {
+            var sortedBrains = _brains.OrderByDescending(brain => brain.TotalScore).ToList();
+            sortedBrains.FirstOrDefault()?.SetAsBest();
+            return sortedBrains;
         }
 
         public void ClearBestBrain()

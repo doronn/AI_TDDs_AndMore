@@ -51,10 +51,12 @@
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\SDF2D.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\EntityLighting.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Color.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Macros.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Sampling\Fibonacci.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\CommonLighting.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Sampling\SampleUVMapping.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Sampling" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\API\GLES3.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\CommonMaterial.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Filtering.hlsl" />
@@ -65,6 +67,7 @@
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Common.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\ACES.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\GraniteShaderLibBase.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Shadow" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\SpaceFillingCurves.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Unity.RenderPipelines.Core.ShaderLibrary.asmdef" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\VolumeRendering.hlsl" />
@@ -93,6 +96,7 @@
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\ImageBasedLighting.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\GeometricTools.hlsl" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\VirtualTexturing.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\API" />
      <None Include="Library\PackageCache\com.unity.render-pipelines.core@12.1.7\ShaderLibrary\Shadow\ShadowSamplingTent.hlsl" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

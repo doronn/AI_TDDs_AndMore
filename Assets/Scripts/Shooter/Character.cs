@@ -4,24 +4,16 @@ using UnityEngine;
 
 namespace Shooter
 {
-    public class Character : MonoBehaviour, ICharacter, IdableActor
+    public class Character : MonoBehaviour, ICharacter, IIdableActor
     {
         [SerializeField]
-        private Projectile _projectilePrefab;
+        private Rigidbody _rb;
+        
+        [SerializeField]
+        private CharacterConfiguration _characterConfiguration;
 
         [SerializeField]
-        private float _rotationSpeed;
-        [SerializeField]
-        private float _forwardSpeed;
-        
-        [SerializeField]
-        private float _backwardSpeed;
-        
-        [SerializeField]
-        private float _strafeSpeed;
-        
-        [SerializeField]
-        private float _shootingDelay;
+        private Transform _rotationTransform;
         
         [field: SerializeField]
         public float Health { get; private set; }
@@ -32,11 +24,12 @@ namespace Shooter
 
         private Action OnDeath = null;
         private Action OnHit = null;
+        private Action GotBadCollision = null;
 
         private float _lastShotTakenTime = 0;
 
         private Vector3 _nextMoveDirection = Vector3.zero;
-        
+
         public void ReceiveDamage(float amount)
         {
             Health -= amount;
@@ -46,46 +39,63 @@ namespace Shooter
                 OnDeath?.Invoke();
                 Destroy(gameObject);
             }
-            else
+            else if (amount > 0)
             {
                 OnHit?.Invoke();
             }
         }
 
-        public void Init(int id, Action onDied, Action onHit = null)
+        public void GiveHealthBump()
+        {
+            Health += _characterConfiguration.HealthBonusForKill;
+        }
+
+        public void ReportGotBadCollision()
+        {
+            GotBadCollision?.Invoke();
+        }
+
+        public void Init(int id, Action onDied, Action onHit = null, Action gotBadCollision = null)
         {
             Id = id;
             OnDeath = onDied;
             OnHit = onHit;
+            GotBadCollision = gotBadCollision;
+            Health = _characterConfiguration.InitialHealth;
         }
         
-        public bool Shoot(Action onHitTarget = null)
+        public bool Shoot(Action<int> onHitTarget = null)
         {
             var timeNow = Time.time;
-            if (timeNow - _lastShotTakenTime < _shootingDelay)
+            if (timeNow - _lastShotTakenTime < _characterConfiguration.ShootingDelay)
             {
                 return false;
             }
 
             _lastShotTakenTime = timeNow;
-            var projectile = Instantiate(_projectilePrefab, transform.position + transform.forward, Quaternion.identity);
-            projectile.Init(Id, (0.25 - transform.eulerAngles.y / 360f) * 2 * Math.PI, onHitTarget);
+            var projectile = Instantiate(_characterConfiguration.ProjectilePrefab, _rotationTransform.position + _rotationTransform.forward, Quaternion.identity);
+            projectile.Init(Id, (0.25 - _rotationTransform.eulerAngles.y / 360f) * 2 * Math.PI, onHitTarget);
             return true;
         }
 
         public void SetRotation(float worldAngle)
         {
-            transform.Rotate(Vector3.up, worldAngle, Space.World);
+            _rotationTransform.Rotate(0, worldAngle, 0, Space.Self);
+        }
+
+        public void LookAt(Vector3 lookAt)
+        {
+            _rotationTransform.LookAt(lookAt);
         }
         
         public void RotateRight()
         {
-            transform.Rotate(Vector3.up, _rotationSpeed * Time.deltaTime,Space.Self);
+            _rotationTransform.Rotate(Vector3.up, _characterConfiguration.RotationSpeed * Time.deltaTime,Space.Self);
         }
         
         public void RotateLeft()
         {
-            transform.Rotate(Vector3.up, -_rotationSpeed * Time.deltaTime,Space.Self);
+            _rotationTransform.Rotate(Vector3.up, -_characterConfiguration.RotationSpeed * Time.deltaTime,Space.Self);
         }
 
         public void WalkForward()
@@ -108,26 +118,26 @@ namespace Shooter
             _nextMoveDirection.x += -1;
         }
 
-        private void Update()
+        private void FixedUpdate()
         {
             var normalizedDirection = _nextMoveDirection.normalized;
 
-            var currentDeltaTime = Time.deltaTime;
+            var currentDeltaTime = 1f/*Time.deltaTime*/;
             var xDirection = normalizedDirection.x;
             var zDirection = normalizedDirection.z;
 
             var xMoveAmount = currentDeltaTime * xDirection *
                               normalizedDirection.z switch
                               {
-                                  > 0 => _forwardSpeed,
-                                  < 0 => _backwardSpeed,
-                                  _ => _strafeSpeed
+                                  > 0 => _characterConfiguration.ForwardSpeed,
+                                  < 0 => _characterConfiguration.BackwardSpeed,
+                                  _ => _characterConfiguration.StrafeSpeed
                               };
             var zMoveAmount = currentDeltaTime *
-                              (zDirection > 0 ? zDirection * _forwardSpeed : zDirection * _backwardSpeed);
+                              (zDirection > 0 ? zDirection * _characterConfiguration.ForwardSpeed : zDirection * _characterConfiguration.BackwardSpeed);
 
-            transform.position += transform.forward * zMoveAmount + transform.right * xMoveAmount;
-            
+            // transform.position += transform.forward * zMoveAmount + transform.right * xMoveAmount;
+            _rb.velocity = _rotationTransform.forward * zMoveAmount + _rotationTransform.right * xMoveAmount;
             _nextMoveDirection = Vector3.zero;
         }
     }

@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Assets\Scripts\CollisionDetection\SimpleArcCollider.cs" />
      <None Include="Assets\Scripts\CollisionDetection\CollisionDetection.asmdef" />
+     <Folder Include="Assets\Scripts\CollisionDetection" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

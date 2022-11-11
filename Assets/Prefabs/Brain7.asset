@@ -12,12 +12,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aa91eb89ecbb46d8a522f0e8c296270d, type: 3}
   m_Name: Brain7
   m_EditorClassIdentifier: 
-  <BrainId>k__BackingField: bestBrainKey7A
+  <BrainId>k__BackingField: BrainM
   <AutoLearn>k__BackingField: 1
-  <IterationTime>k__BackingField: 25
-  <SqrtTotalSimulationsAmount>k__BackingField: 10
-  <SimulationPrefab>k__BackingField: {fileID: 101541042832748396, guid: 0f3028abb94c52f478d3b0d32108f391,
+  <IterationTime>k__BackingField: 90
+  <SimulationsAmount>k__BackingField: 400
+  <AmountOfSavedNetworks>k__BackingField: 30
+  <SimulationPrefab>k__BackingField: {fileID: 101541042832748396, guid: e5c13f13468d276439532f0a17e85985,
     type: 3}
-  <MutationAmount>k__BackingField: 0.18
-  <MapSizeX>k__BackingField: 100
-  <MapSizeZ>k__BackingField: 100
+  <MutationAmount>k__BackingField: 0.005
+  <MapSizeX>k__BackingField: 25
+  <MapSizeZ>k__BackingField: 25

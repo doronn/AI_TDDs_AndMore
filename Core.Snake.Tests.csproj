@@ -45,7 +45,9 @@
      <Compile Include="Assets\Scripts\SnakeTests\SnakeBodyTests.cs" />
      <Compile Include="Assets\Scripts\SnakeTests\SnakeControllerTests.cs" />
      <Compile Include="Assets\Scripts\SnakeTests\Extensions\MovableCharacterExtensions.cs" />
+     <Folder Include="Assets\Scripts\SnakeTests\Extensions" />
      <None Include="Assets\Scripts\SnakeTests\SnakeTests.asmdef" />
+     <Folder Include="Assets\Scripts\SnakeTests" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>

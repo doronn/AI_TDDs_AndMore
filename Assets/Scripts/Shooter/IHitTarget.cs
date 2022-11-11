@@ -2,6 +2,6 @@
 {
     public interface IHitTarget
     {
-        bool ReceiveHit(IDamageGiver damageGiver);
+        int ReceiveHit(IDamageGiver damageGiver);
     }
 }

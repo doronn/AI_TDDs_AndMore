@@ -45,6 +45,7 @@
      <Compile Include="Library\PackageCache\com.unity.shadergraph@12.1.7\Editor\Utilities\GenerationAPIAttribute.cs" />
      <Compile Include="Library\PackageCache\com.unity.shadergraph@12.1.7\Editor\Utilities\AssemblyInfo.cs" />
      <Compile Include="Library\PackageCache\com.unity.shadergraph@12.1.7\Editor\Utilities\StringBuilderExtensions.cs" />
+     <Folder Include="Library\PackageCache\com.unity.shadergraph@12.1.7\Editor\Utilities" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\Editor\Utilities\Unity.ShaderGraph.Utilities.asmdef" />
      <Reference Include="UnityEngine">
      <HintPath>E:\Program Files\UnityVersions\2021.3.8f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>

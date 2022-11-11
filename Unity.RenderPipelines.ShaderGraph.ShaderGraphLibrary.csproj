@@ -43,6 +43,7 @@
   <ItemGroup>
      <Compile Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\DummyShaderGraphLibrary.cs" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\ShaderVariablesFunctions.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\LODDitheringTransition.hlsl" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\PreviewVaryings.hlsl" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\Functions.hlsl" />
@@ -50,6 +51,7 @@
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\ShaderVariables.hlsl" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\Nature\SpeedTree8Wind.hlsl" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\ShaderConfig.cs.hlsl" />
+     <Folder Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\Nature" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\ShaderVariablesMatrixDefsLegacyUnity.hlsl" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\PreviewPass.hlsl" />
      <None Include="Library\PackageCache\com.unity.shadergraph@12.1.7\ShaderGraphLibrary\Unity.RenderPipelines.ShaderGraph.ShaderGraphLibrary.asmdef" />
