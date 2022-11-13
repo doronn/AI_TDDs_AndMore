@@ -16,6 +16,7 @@ namespace AiBrain
         [SerializeField] private DiscreteSensor[] _sensors;
         [SerializeField] private Character _controlledCharacter;
         public NeuralNetwork Network { get; private set; }
+        public bool IsInitialized { get; private set; }
 
         public Transform CharacterTransform => _controlledCharacter != null ? _controlledCharacter.transform : null;
         public int TotalScore
@@ -40,18 +41,12 @@ namespace AiBrain
 
         private List<SensorListener> _sensorListeners = new();
 
-        private bool _isInitialized = false;
         [SerializeField]
         private int _totalScore = 100;
 
         private int _sensorCount;
         private float _stimulationInput = 0f;
-        private float _mutationAmount = 0f;
         private float[] _sensoryDataBuffer;
-
-        public Brain()
-        {
-        }
 
         public void Init(NeuralNetwork predefinedNetwork = null, float brainConfigMutationAmount = 0, int score = 100, bool isMutated = false)
         {
@@ -61,7 +56,6 @@ namespace AiBrain
             }
 
             _networkIndex = Guid.NewGuid().GetHashCode();
-            _mutationAmount = brainConfigMutationAmount;
             
             _sensorCount = _sensors.Sum(sensor => sensor.SensorCount);
             var neuronCounts = new[] { _sensorCount + 1, _sensorCount / 2, _sensorCount, 4 };
@@ -90,7 +84,7 @@ namespace AiBrain
             _controlledCharacter.Init(Network.NetworkIndex, OnDied, OnHit, GotBadCollision);
             _controlledCharacter.transform.localPosition += Vector3.forward * Random.Range(-50f, 50f) + Vector3.right * Random.Range(-10f, 10f);
             
-            _isInitialized = true;
+            IsInitialized = true;
         }
 
         public void SetAsBest()
@@ -108,24 +102,21 @@ namespace AiBrain
 
         private void OnHit()
         {
-            // TotalScore -= 200;
             UpdateCharacterScoreText();
         }
 
         private void GotBadCollision()
         {
-            // NeuralNetwork.Mutate(Network, _mutationAmount, 1);
         }
 
         private void OnDied()
         {
-            _isInitialized = false;
-            // TotalScore -= 300;
+            IsInitialized = false;
         }
 
         private void FixedUpdate()
         {
-            if (!_isInitialized)
+            if (!IsInitialized)
             {
                 return;
             }
@@ -183,11 +174,6 @@ namespace AiBrain
                         {
                             _controlledCharacter.WalkBackward();
                         }
-                        
-                        /*if (!mainSensorHit)
-                        {
-                            TotalScore += anySensorHit ? 2 : 1;
-                        }*/
                         break;
                     }
                     case 1:
@@ -200,22 +186,11 @@ namespace AiBrain
                         {
                             _controlledCharacter.StrafeLeft();
                         }
-
-                        /*if (!mainSensorHit)
-                        {
-                            TotalScore += anySensorHit ? 2 : 1;
-                        }*/
                         break;
                     }
                     case 2:
                     {
-                        _controlledCharacter.SetRotation(outputValue * 180f);
-                        /*if (!mainSensorHit)
-                        {
-                            TotalScore += anySensorHit ? 2 : 1;
-                        }
-                        */
-
+                        _controlledCharacter.SetRotation(outputValue * 180);
                         break;
                     }
                     case 3:
@@ -224,17 +199,7 @@ namespace AiBrain
                         {
                             TotalScore += 1;
                         }
-                        /*if (outputValue > 0 && _controlledCharacter.Shoot(mainSensorHit ? TargetWasHitWhileIsLockedOnMainTarget : TargetWasHitWhileNotLockedOnMainTarget))
-                        {
-                            if (mainSensorHit)
-                            {
-                                TotalScore += 2 * (int)_controlledCharacter.Health;
-                            }/*
-                            else
-                            {
-                                TotalScore -= 15;
-                            }#1#
-                        }*/
+                        // This used to be for shooting but might be used for something else later
                         break;
                     }
                     default:
@@ -247,27 +212,13 @@ namespace AiBrain
             if (mainSensorHit)
             {
                 TotalScore += (int)_controlledCharacter.Health;
+                
                 if (_controlledCharacter.Shoot(mainSensorHit
                         ? TargetWasHitWhileIsLockedOnMainTarget
                         : TargetWasHitWhileNotLockedOnMainTarget))
                 {
                     TotalScore += 2 * (int)_controlledCharacter.Health;
                 }
-                // var _stimulationTarget = (TotalScore > 0 ? 1f : -1);
-                // var stimulationStep = 1f / (Math.Abs(TotalScore / 100) + 1);
-                // _stimulationInput = AiUtils.Lerp(_stimulationInput, _stimulationTarget, 
-                    // stimulationStep);
-                // var stimAbs = Mathf.Abs(_stimulationInput);
-                // NeuralNetwork.Mutate(Network, _mutationAmount * stimAbs, 1);
-            }
-            else
-            {
-                // _stimulationInput = AiUtils.Lerp(_stimulationInput, 0, 0.01f);
-                // var stimAbs = Mathf.Abs(_stimulationInput);
-                // if (stimAbs > 0.01)
-                // {
-                    // NeuralNetwork.Mutate(Network, _mutationAmount * stimAbs, 1);
-                // }
             }
         }
 
@@ -275,7 +226,6 @@ namespace AiBrain
         {
             if (hitScore < 0)
             {
-                // NeuralNetwork.Mutate(Network, _mutationAmount, 1);
                 TotalScore -= 15;
                 return;
             }
@@ -293,7 +243,6 @@ namespace AiBrain
         {
             if (hitScore < 0)
             {
-                // NeuralNetwork.Mutate(Network, _mutationAmount, 1);
                 TotalScore -= 15;
                 return;
             }

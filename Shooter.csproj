@@ -46,13 +46,13 @@
      <Compile Include="Assets\Scripts\Shooter\IIdableActor.cs" />
      <Compile Include="Assets\Scripts\Shooter\IDamageGiver.cs" />
      <Compile Include="Assets\Scripts\Shooter\PlayerController.cs" />
+     <Compile Include="Assets\Scripts\Shooter\CharacterConfiguration.cs" />
      <Compile Include="Assets\Scripts\Shooter\IObstacle.cs" />
      <Compile Include="Assets\Scripts\Shooter\ICharacter.cs" />
      <Compile Include="Assets\Scripts\Shooter\HitTarget.cs" />
      <Compile Include="Assets\Scripts\Shooter\Projectile.cs" />
      <Compile Include="Assets\Scripts\Shooter\Character.cs" />
      <Compile Include="Assets\Scripts\Shooter\DamageGiver.cs" />
-     <Compile Include="Assets\Scripts\Shooter\CharacterConfiguration.cs" />
      <None Include="Assets\Scripts\Shooter\Shooter.asmdef" />
      <Folder Include="Assets\Scripts\Shooter" />
      <Reference Include="UnityEngine">

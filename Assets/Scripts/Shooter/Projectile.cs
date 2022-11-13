@@ -22,10 +22,10 @@ namespace Shooter
         
         private Vector3 _directionVector;
 
-        internal void Init(int ownerId, double direction, Action<int> onHitTarget = null)
+        internal void Init(int ownerId, Vector3 direction, Action<int> onHitTarget = null)
         {
             OwnerId = ownerId;
-            _directionVector = new Vector3((float)Math.Cos(direction), 0, (float)Math.Sin(direction));
+            _directionVector = direction;
             _damageGiver = GetComponent<DamageGiver>();
             _damageGiver.Init(ownerId, onHitTarget, DestroySelf);
             _rb.velocity = _directionVector * _moveSpeed;

@@ -580,7 +580,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _sensors:
   - {fileID: 4891086637133730469}
-  _controlledCharacter: {fileID: 5038108824659699826}
+  _controlledCharacter: {fileID: 6622377345702923867}
   _totalScore: 100
 --- !u!1 &936083680755761376
 GameObject:
@@ -1190,6 +1190,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 101541042832748395}
     m_Modifications:
+    - target: {fileID: 8488734919584763560, guid: 67f432fc72a82e548ab15b34b4c155a1,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 1.96
+      objectReference: {fileID: 0}
     - target: {fileID: 8588824372494372639, guid: 67f432fc72a82e548ab15b34b4c155a1,
         type: 3}
       propertyPath: m_LocalRotation.w
@@ -1279,9 +1284,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: db49890aa01f4d83831d4b097834fc81, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5038108824659699826 stripped
+--- !u!114 &6622377345702923867 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4936589788947505043, guid: 67f432fc72a82e548ab15b34b4c155a1,
+  m_CorrespondingSourceObject: {fileID: 6525669756247538106, guid: 67f432fc72a82e548ab15b34b4c155a1,
     type: 3}
   m_PrefabInstance: {fileID: 101541043259013089}
   m_PrefabAsset: {fileID: 0}

@@ -192,38 +192,24 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 67f432fc72a82e548ab15b34b4c155a1, type: 3}
---- !u!1 &149739213 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8588824372577430617, guid: 67f432fc72a82e548ab15b34b4c155a1,
-    type: 3}
-  m_PrefabInstance: {fileID: 149739212}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &149739214 stripped
+--- !u!114 &149739213 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8588824372577430620, guid: 67f432fc72a82e548ab15b34b4c155a1,
+  m_CorrespondingSourceObject: {fileID: 6525669756247538106, guid: 67f432fc72a82e548ab15b34b4c155a1,
     type: 3}
   m_PrefabInstance: {fileID: 149739212}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149739213}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1cf7698fee084c34836a079691c61cda, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &149739215
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
+--- !u!4 &149739214 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 8588824372577430611, guid: 67f432fc72a82e548ab15b34b4c155a1,
+    type: 3}
+  m_PrefabInstance: {fileID: 149739212}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 149739213}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 45f3be7291b44041ae59f82a399857a9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  controllerId: 0
-  _character: {fileID: 149739214}
 --- !u!1 &1542272935
 GameObject:
   m_ObjectHideFlags: 0
@@ -235,6 +221,9 @@ GameObject:
   - component: {fileID: 1542272938}
   - component: {fileID: 1542272937}
   - component: {fileID: 1542272936}
+  - component: {fileID: 1542272940}
+  - component: {fileID: 1542272939}
+  - component: {fileID: 1542272941}
   m_Layer: 0
   m_Name: Main Camera
   m_TagString: MainCamera
@@ -300,14 +289,87 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1542272935}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1, z: -10}
+  m_LocalRotation: {x: 0.7071068, y: -0, z: -0, w: 0.7071068}
+  m_LocalPosition: {x: 0, y: 25, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1542272939
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542272935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a79441f348de89743a2939f4d699eac1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_RenderShadows: 1
+  m_RequiresDepthTextureOption: 2
+  m_RequiresOpaqueTextureOption: 2
+  m_CameraType: 0
+  m_Cameras: []
+  m_RendererIndex: -1
+  m_VolumeLayerMask:
+    serializedVersion: 2
+    m_Bits: 1
+  m_VolumeTrigger: {fileID: 0}
+  m_VolumeFrameworkUpdateModeOption: 2
+  m_RenderPostProcessing: 0
+  m_Antialiasing: 0
+  m_AntialiasingQuality: 2
+  m_StopNaN: 0
+  m_Dithering: 0
+  m_ClearDepth: 1
+  m_AllowXRRendering: 1
+  m_RequiresDepthTexture: 0
+  m_RequiresColorTexture: 0
+  m_Version: 2
+--- !u!114 &1542272940
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542272935}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 45f3be7291b44041ae59f82a399857a9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  controllerId: 0
+  _character: {fileID: 149739213}
+--- !u!1773428102 &1542272941
+ParentConstraint:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1542272935}
+  m_Enabled: 1
+  m_Weight: 1
+  m_TranslationAtRest: {x: 0, y: 25, z: 0}
+  m_RotationAtRest: {x: 90, y: 0, z: 0}
+  m_TranslationOffsets:
+  - {x: 0, y: 25, z: 0}
+  m_RotationOffsets:
+  - {x: 89.96574, y: 0, z: 0}
+  m_AffectTranslationX: 1
+  m_AffectTranslationY: 1
+  m_AffectTranslationZ: 1
+  m_AffectRotationX: 0
+  m_AffectRotationY: 0
+  m_AffectRotationZ: 0
+  m_IsContraintActive: 1
+  m_IsLocked: 0
+  m_Sources:
+  - sourceTransform: {fileID: 149739214}
+    weight: 1
 --- !u!1 &1686110579
 GameObject:
   m_ObjectHideFlags: 0

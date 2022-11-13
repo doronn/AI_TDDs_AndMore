@@ -13,11 +13,11 @@ MonoBehaviour:
   m_Name: PlayerConfig
   m_EditorClassIdentifier: 
   <RotationSpeed>k__BackingField: 60
-  <ForwardSpeed>k__BackingField: 6
-  <BackwardSpeed>k__BackingField: 3
-  <StrafeSpeed>k__BackingField: 4
+  <ForwardSpeed>k__BackingField: 60
+  <BackwardSpeed>k__BackingField: 30
+  <StrafeSpeed>k__BackingField: 40
   <ShootingDelay>k__BackingField: 0.3
-  <InitialHealth>k__BackingField: 50
-  <HealthBonusForKill>k__BackingField: 25
+  <InitialHealth>k__BackingField: 20
+  <HealthBonusForKill>k__BackingField: 15
   <ProjectilePrefab>k__BackingField: {fileID: 3359263665149492414, guid: b63c9da6184815444be0c68ffeb5a67a,
     type: 3}

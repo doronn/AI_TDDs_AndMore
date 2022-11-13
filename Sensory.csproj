@@ -41,11 +41,11 @@
     <ImplicitlyExpandDesignTimeFacades>false</ImplicitlyExpandDesignTimeFacades>
   </PropertyGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\Sensory\RayExtensions.cs" />
+     <Compile Include="Assets\Scripts\Sensory\ISensoryMetaData.cs" />
      <Compile Include="Assets\Scripts\Sensory\ISensorListener.cs" />
      <Compile Include="Assets\Scripts\Sensory\ISensor.cs" />
      <Compile Include="Assets\Scripts\Sensory\DiscreteSensor.cs" />
-     <Compile Include="Assets\Scripts\Sensory\RayExtensions.cs" />
-     <Compile Include="Assets\Scripts\Sensory\ISensoryMetaData.cs" />
      <None Include="Assets\Scripts\Sensory\Sensory.asmdef" />
      <Folder Include="Assets\Scripts\Sensory" />
      <Reference Include="UnityEngine">

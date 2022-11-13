@@ -894,6 +894,10 @@
       <Project>{c1b0377c-1d2e-a644-fbc6-7cf996e7eee5}</Project>
       <Name>PPv2URPConverters</Name>
     </ProjectReference>
+    <ProjectReference Include="AiBrainEditor.csproj">
+      <Project>{351c67f4-e5dd-5607-3092-22a4867f851b}</Project>
+      <Name>AiBrainEditor</Name>
+    </ProjectReference>
     <ProjectReference Include="Unity.RenderPipelines.Core.Runtime.csproj">
       <Project>{616f0a44-15f5-b225-d874-b8240ff6a747}</Project>
       <Name>Unity.RenderPipelines.Core.Runtime</Name>

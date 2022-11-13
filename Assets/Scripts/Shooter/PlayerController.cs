@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Shooter
 {
@@ -18,10 +17,21 @@ namespace Shooter
         {
             if (_character != null)
             {
-                _character.Init(controllerId, OnDied);
+                _character.Init(controllerId, OnDied, OnHit);
                 _isInitialized = true;
+                UpdateHealthText();
             }
             _mainCamera = Camera.main;
+        }
+
+        private void OnHit()
+        {
+            UpdateHealthText();
+        }
+
+        private void UpdateHealthText()
+        {
+            _character._scoreText.SetText(_character.Health.ToString());
         }
 
         private void OnDied()
@@ -54,7 +64,8 @@ namespace Shooter
             }
 
             var mouseRay = _mainCamera.ScreenPointToRay(Input.mousePosition);
-            var lookAtRelativePosition = mouseRay.GetPoint(_mainCamera.transform.localPosition.y);
+            var lookAtRelativePosition = mouseRay.GetPoint((_mainCamera.transform.position -
+                                                            _character.transform.position).magnitude);
             _character.LookAt(lookAtRelativePosition);
             
             if (Input.GetMouseButton(0))
@@ -65,7 +76,18 @@ namespace Shooter
 
         private void OnHitTarget(int hit)
         {
+            if (hit != 2)
+            {
+                return;
+            }
+
+            if (!_character)
+            {
+                return;
+            }
             
+            _character.GiveHealthBump();
+            UpdateHealthText();
         } 
     }
 }

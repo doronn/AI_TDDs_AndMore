@@ -8,7 +8,7 @@ namespace Shooter
     {
         [SerializeField]
         private Rigidbody _rb;
-        
+
         [SerializeField]
         private CharacterConfiguration _characterConfiguration;
 
@@ -73,8 +73,9 @@ namespace Shooter
             }
 
             _lastShotTakenTime = timeNow;
-            var projectile = Instantiate(_characterConfiguration.ProjectilePrefab, _rotationTransform.position + _rotationTransform.forward, Quaternion.identity);
-            projectile.Init(Id, (0.25 - _rotationTransform.eulerAngles.y / 360f) * 2 * Math.PI, onHitTarget);
+            var forward = _rotationTransform.forward;
+            var projectile = Instantiate(_characterConfiguration.ProjectilePrefab, _rotationTransform.position + forward, Quaternion.identity);
+            projectile.Init(Id, forward, onHitTarget);
             return true;
         }
 
@@ -122,7 +123,7 @@ namespace Shooter
         {
             var normalizedDirection = _nextMoveDirection.normalized;
 
-            var currentDeltaTime = 1f/*Time.deltaTime*/;
+            var currentDeltaTime = Time.fixedDeltaTime;
             var xDirection = normalizedDirection.x;
             var zDirection = normalizedDirection.z;
 
@@ -135,9 +136,13 @@ namespace Shooter
                               };
             var zMoveAmount = currentDeltaTime *
                               (zDirection > 0 ? zDirection * _characterConfiguration.ForwardSpeed : zDirection * _characterConfiguration.BackwardSpeed);
-
             // transform.position += transform.forward * zMoveAmount + transform.right * xMoveAmount;
-            _rb.velocity = _rotationTransform.forward * zMoveAmount + _rotationTransform.right * xMoveAmount;
+            var currentForwardVector = _rotationTransform.forward;
+            currentForwardVector.y = 0;
+            var currentRightVector = _rotationTransform.right;
+            currentForwardVector.y = 0;
+            
+            _rb.velocity = currentForwardVector.normalized * zMoveAmount + currentRightVector.normalized * xMoveAmount;
             _nextMoveDirection = Vector3.zero;
         }
     }

@@ -127,7 +127,7 @@ namespace AiBrain
                 yield return new WaitForSeconds(0.25f);
 
                 var bestBrain = GetBestBrain();
-                var bestBrainTransform = bestBrain.CharacterTransform;
+                var bestBrainTransform = bestBrain == null ? null : bestBrain.CharacterTransform;
 
                 if (bestBrainTransform != null)
                 {
@@ -135,7 +135,10 @@ namespace AiBrain
                         new ConstraintSource { sourceTransform = bestBrainTransform, weight = 1 });
                 }
                 
-                _iterationCounterText.text = $"{_generationCounter.ToString()}\n{_brainConfig.IterationTime - (Time.time - _startTime):n2}";
+                if (_brainConfig.AutoLearn)
+                {
+                    _iterationCounterText.text = $"{_generationCounter.ToString()}\n{_brainConfig.IterationTime - (Time.time - _startTime):n2}";
+                }
             }
         }
 
@@ -190,11 +193,26 @@ namespace AiBrain
 
         private Brain GetBestBrain()
         {
-            var maxBrainScore = _brains.Max(brain => brain.TotalScore);
+            if (_brains.Count == 0 || !_brains.Any(IsBrainInitialized))
+            {
+                return null;
+            }
+            
+            var maxBrainScore = _brains.Where(IsBrainInitialized).Max(BrainScore);
             var bestBrain = _brains.FirstOrDefault(brain => brain.TotalScore == maxBrainScore);
             return bestBrain;
         }
-        
+
+        private int BrainScore(Brain brain)
+        {
+            return brain.TotalScore;
+        }
+
+        private bool IsBrainInitialized(Brain brain)
+        {
+            return brain.IsInitialized;
+        }
+
         private List<Brain> GetBestBrains()
         {
             var sortedBrains = _brains.OrderByDescending(brain => brain.TotalScore).ToList();
